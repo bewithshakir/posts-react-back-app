@@ -1,26 +1,29 @@
 {
   "name": "nodejs-complete-guide",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "nodejs-complete-guide",
+  "main": "app.js",
+  "engines": {
+    "node": "18.17.0"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon app.js",
-    "build": "netlify deploy --prod"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://git-codecommit.us-east-1.amazonaws.com/v1/repos/udemy-course-nodejs-complete"
+    "start": "NODE_ENV=production MONGO_USER=bewithshakir MONGO_PASSWORD=shsamring2_432014 MONOG_DEFAULT_DB=messages node app.js",
+    "start-server": "node app.js",
+    "start:dev": "nodemon app.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.2",
+    "compression": "^1.7.4",
     "express": "^4.18.2",
     "express-validator": "^7.0.1",
+    "helmet": "^7.1.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.1.1",
+    "morgan": "^1.10.0",
     "multer": "^1.4.5-lts.1",
     "netlify-cli": "^17.16.1",
     "netlify-lambda": "^2.0.16",

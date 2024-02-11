@@ -1,14 +1,23 @@
 const path = require('path');
+const https = require('https');
+const fs = require('fs');
 
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const multer = require('multer');
-const serverless = require('serverless-http');
+const helmet = require('helmet');
+const compression = require('compression');
+
 
 const feedRoutes = require('./routes/feed');
 const authRoutes = require('./routes/auth');
 const app = express();
+// const privateKey = fs.readFileSync('server.key');
+// const certificate = fs.readFileSync('server.cert');
+
+app.use(helmet());
+app.use(compression());
 
 const fileStorage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -59,12 +68,14 @@ app.use((error, req, res, next) => {
   res.status(status).json({ message: message, data: data });
 });
 
+
 mongoose
   .connect(
-    'mongodb+srv://bewithshakir:shsamring2_432014@cluster-cm1-project.vjcxqwb.mongodb.net/messages'
+    `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster-cm1-project.vjcxqwb.mongodb.net/${process.env.MONOG_DEFAULT_DB}`
   )
   .then(result => {
-    app.listen(8080);
+    // https.createServer({key: privateKey, cert: certificate}, app).listen(process.env.PORT || 8080);
+    app.listen(process.env.PORT || 8080);
   })
   .catch(err => console.log(err));
 
